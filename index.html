@@ -503,6 +503,19 @@
     </div>
   </div>
 
+  <audio id="bgm" loop preload="auto">
+    <source src="Ngày Ấy Bạn Và Tôi (HITStory Live Version).mp3" type="audio/mpeg">
+  </audio>
+
+  <button id="music-btn" style="
+    position: fixed; bottom: 20px; right: 16px; z-index: 1000;
+    width: 48px; height: 48px; border-radius: 50%;
+    border: 2px solid #c9a96e; background: #162848;
+    color: #c9a96e; font-size: 22px; cursor: pointer;
+    display: none; align-items: center; justify-content: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,.5);
+  " title="Nhạc">🎵</button>
+
 <canvas id="confetti" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:999;"></canvas>
   <script>
   (function () {
@@ -580,6 +593,31 @@
       t++;
       requestAnimationFrame(loop);
     })();
+  })();
+
+  (function () {
+    var audio = document.getElementById('bgm');
+    var btn   = document.getElementById('music-btn');
+    var muted = false;
+    var played = false;
+
+    var observer = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting && !played) {
+        played = true;
+        audio.volume = 0.7;
+        audio.play().catch(function(){});
+        btn.style.display = 'flex';
+        observer.disconnect();
+      }
+    }, { threshold: 0.1 });
+
+    observer.observe(document.querySelector('.bottom'));
+
+    btn.addEventListener('click', function () {
+      muted = !muted;
+      audio.muted = muted;
+      btn.textContent = muted ? '🔇' : '🎵';
+    });
   })();
 
   </script>
