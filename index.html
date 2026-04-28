@@ -601,19 +601,21 @@
     var muted = false;
     var played = false;
 
-    var observer = new IntersectionObserver(function (entries) {
-      if (entries[0].isIntersecting && !played) {
-        played = true;
-        audio.volume = 0.7;
-        audio.play().catch(function(){});
-        btn.style.display = 'flex';
-        observer.disconnect();
-      }
-    }, { threshold: 0.1 });
+    var photo = document.querySelector('.photo-ring');
+    if (photo) {
+      photo.style.cursor = 'pointer';
+      photo.addEventListener('click', function () {
+        if (!played) {
+          played = true;
+          audio.volume = 0.7;
+          audio.play().catch(function(){});
+          btn.style.display = 'flex';
+        }
+      });
+    }
 
-    observer.observe(document.querySelector('.bottom'));
-
-    btn.addEventListener('click', function () {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
       muted = !muted;
       audio.muted = muted;
       btn.textContent = muted ? '🔇' : '🎵';
