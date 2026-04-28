@@ -283,16 +283,18 @@
     /* Map */
     .map-wrap {
       margin-bottom: 18px;
-      border: 1px solid rgba(201,169,110,.3);
+      border: 2px solid #c9a96e;
+      border-radius: 4px;
       overflow: hidden;
       position: relative;
+      box-shadow: 0 0 0 4px rgba(201,169,110,.12), 0 4px 20px rgba(0,0,0,.4);
     }
     .map-wrap::after {
       content: '';
       position: absolute;
       inset: 0;
       pointer-events: none;
-      box-shadow: inset 0 0 0 1px rgba(201,169,110,.15);
+      box-shadow: inset 0 0 0 1px rgba(255,235,180,.15);
     }
     .map-wrap iframe {
       display: block;
@@ -374,43 +376,77 @@
   50%{ opacity:1; text-shadow:0 0 8px rgba(201,169,110,.28),0 0 14px rgba(201,169,110,.12); transform:translateY(-1px); }
 }
 
+/* PHOTO WIGGLE */
+@keyframes photoWiggle{
+  0%,100%{ transform: rotate(0deg); }
+  20%{ transform: rotate(-4deg) scale(1.03); }
+  40%{ transform: rotate(4deg) scale(1.03); }
+  60%{ transform: rotate(-3deg); }
+  80%{ transform: rotate(3deg); }
+}
+.photo-ring{
+  animation: photoWiggle 2.5s ease-in-out infinite;
+}
+.photo-ring.stop-wiggle{
+  animation: none;
+}
+
+/* PHOTO HINT */
+.photo-hint{
+  text-align: center;
+  font-size: 10px;
+  color: rgba(201,169,110,.7);
+  letter-spacing: 1.5px;
+  margin-bottom: 10px;
+  animation: hintPulse 2s ease-in-out infinite;
+  transition: opacity .5s;
+}
+.photo-hint.hidden{ opacity: 0; pointer-events: none; }
+@keyframes hintPulse{
+  0%,100%{ opacity:.5; } 50%{ opacity:1; }
+}
+
 /* SCROLL HINT */
 .scroll-hint{
   position: fixed;
-  bottom: 28px;
+  bottom: 80px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 1001;
+  z-index: 2000;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   pointer-events: none;
-  transition: opacity .5s;
+  transition: opacity .6s;
 }
 .scroll-hint.hidden{ opacity: 0; }
-.scroll-hint-text{
-  font-size: 9px;
-  letter-spacing: 3px;
-  color: rgba(201,169,110,.7);
+.scroll-hint-label{
+  background: rgba(22,40,72,.9);
+  border: 1px solid rgba(201,169,110,.6);
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  color: #c9a96e;
   text-transform: uppercase;
   font-family: 'Montserrat', sans-serif;
+  white-space: nowrap;
+  box-shadow: 0 4px 20px rgba(0,0,0,.5);
 }
-.scroll-hint-arrow{
-  width: 20px; height: 20px;
-  border-right: 2px solid rgba(201,169,110,.7);
-  border-bottom: 2px solid rgba(201,169,110,.7);
-  transform: rotate(45deg);
-  animation: arrowBounce .9s ease-in-out infinite;
+.scroll-hint-chevron{
+  width: 26px; height: 26px;
+  border-right: 3px solid #c9a96e;
+  border-bottom: 3px solid #c9a96e;
+  border-radius: 2px;
+  animation: chevronBounce 1s ease-in-out infinite;
 }
-.scroll-hint-arrow:nth-child(3){
-  margin-top: -14px;
-  animation-delay: .2s;
-  opacity: .5;
+@media (max-width: 479px){
+  .scroll-hint{ bottom: 140px; }
 }
-@keyframes arrowBounce{
-  0%,100%{ transform: rotate(45deg) translateY(0); }
-  50%{ transform: rotate(45deg) translateY(5px); }
+@keyframes chevronBounce{
+  0%,100%{ transform: rotate(45deg) translateY(0); opacity:1; }
+  50%{ transform: rotate(45deg) translateY(8px); opacity:.5; }
 }
 
 /* LOTTERY */
@@ -565,6 +601,7 @@
           </div>
         </div>
       </div>
+      <p class="photo-hint" id="photo-hint">🎵 Bấm vào ảnh để nghe nhạc</p>
 
       <div class="seal-wrap">
         <div class="seal">
@@ -584,7 +621,7 @@
       <div class="info-bar">
         <div class="info-left">
           <div class="info-label"><i class="fa-regular fa-clock"></i> Thời Gian</div>
-          <div class="info-value">09 : 30<br>Chủ Nhật<br>17 / 05 / 2026</div>
+          <div class="info-value">Giờ: Coming Soon...<br>Chủ Nhật<br>17 / 05 / 2026</div>
         </div>
         <div class="info-right">
           <div class="info-label">
@@ -634,9 +671,8 @@
   " title="Nhạc">🎵</button>
 
 <div class="scroll-hint" id="scroll-hint">
-  <span class="scroll-hint-text">Kéo xuống</span>
-  <div class="scroll-hint-arrow"></div>
-  <div class="scroll-hint-arrow"></div>
+  <span class="scroll-hint-label">↓ Kéo xuống để thấy điều bất ngờ</span>
+  <div class="scroll-hint-chevron"></div>
 </div>
 
 <canvas id="confetti" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:999;"></canvas>
@@ -789,7 +825,8 @@
     var muted = false;
     var played = false;
 
-    var photo = document.querySelector('.photo-ring');
+    var photo     = document.querySelector('.photo-ring');
+    var photoHint = document.getElementById('photo-hint');
     if (photo) {
       photo.style.cursor = 'pointer';
       photo.addEventListener('click', function () {
@@ -799,6 +836,8 @@
           audio.play().catch(function(){});
           btn.style.display = 'flex';
         }
+        if (photoHint) photoHint.classList.add('hidden');
+        photo.classList.add('stop-wiggle');
       });
     }
 
