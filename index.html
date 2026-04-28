@@ -281,20 +281,35 @@
     .info-right { text-align: right; }
 
     /* Map */
-    .map-wrap {
+    .map-frame{
+      position: relative;
       margin-bottom: 18px;
-      border: 2px solid #c9a96e;
-      border-radius: 4px;
+      border: 1px solid #c9a96e;
+      padding: 5px;
+      box-shadow: 0 0 0 4px rgba(201,169,110,.08), 0 6px 24px rgba(0,0,0,.5);
+    }
+    .map-gem{
+      position: absolute;
+      width: 12px; height: 12px;
+      background: #162848;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8px; color: #c9a96e; z-index: 2;
+    }
+    .map-gem-tl{ top:-6px; left:-6px; }
+    .map-gem-tr{ top:-6px; right:-6px; }
+    .map-gem-bl{ bottom:-6px; left:-6px; }
+    .map-gem-br{ bottom:-6px; right:-6px; }
+    .map-wrap {
+      border: 1px solid rgba(201,169,110,.35);
       overflow: hidden;
       position: relative;
-      box-shadow: 0 0 0 4px rgba(201,169,110,.12), 0 4px 20px rgba(0,0,0,.4);
     }
     .map-wrap::after {
       content: '';
       position: absolute;
       inset: 0;
       pointer-events: none;
-      box-shadow: inset 0 0 0 1px rgba(255,235,180,.15);
+      box-shadow: inset 0 0 0 1px rgba(255,235,180,.1);
     }
     .map-wrap iframe {
       display: block;
@@ -374,6 +389,70 @@
 @keyframes giftGlow{
   0%,100%{ opacity:.75; text-shadow:none; transform:translateY(0); }
   50%{ opacity:1; text-shadow:0 0 8px rgba(201,169,110,.28),0 0 14px rgba(201,169,110,.12); transform:translateY(-1px); }
+}
+
+/* WEATHER */
+.weather-wrap{
+  margin-top: 20px;
+  border: 1px solid rgba(201,169,110,.25);
+  padding: 16px;
+  position: relative;
+}
+.weather-wrap::before{
+  content: 'THỜI TIẾT · 17/05/2026';
+  position: absolute;
+  top: -7px; left: 50%;
+  transform: translateX(-50%);
+  background: #162848;
+  padding: 0 10px;
+  font-size: 7.5px;
+  letter-spacing: 3px;
+  color: #c9a96e;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.weather-top{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.weather-icon{ font-size: 28px; line-height: 1; }
+.weather-info{ flex: 1; }
+.weather-temp{
+  font-size: 18px; font-weight: 700;
+  color: #f5e090; letter-spacing: 1px;
+}
+.weather-desc{
+  font-size: 9px; color: #d4c098;
+  margin-top: 3px; letter-spacing: .5px;
+}
+.weather-stats{
+  display: flex; flex-direction: column; gap: 4px; align-items: flex-end;
+}
+.weather-stat{
+  font-size: 9px; color: #c9a96e;
+  letter-spacing: 1px;
+}
+.weather-divider{
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(201,169,110,.3), transparent);
+  margin-bottom: 12px;
+}
+.weather-tips-title{
+  font-size: 8px; letter-spacing: 3px; text-transform: uppercase;
+  color: #c9a96e; font-weight: 600; margin-bottom: 10px;
+}
+.weather-tips{ display: flex; flex-direction: column; gap: 7px; }
+.weather-tip{
+  font-size: 10px; color: #d4c098;
+  letter-spacing: .3px; line-height: 1.5;
+}
+.weather-note{
+  margin-top: 12px;
+  font-size: 8px; color: rgba(201,169,110,.4);
+  font-style: italic; letter-spacing: .5px;
+  text-align: right;
 }
 
 /* PHOTO WIGGLE */
@@ -609,13 +688,19 @@
         </div>
       </div>
 
-      <div class="map-wrap">
-        <iframe
-          src="https://maps.google.com/maps?q=Trường+Đại+học+Kiến+trúc+Hà+Nội,+129+Trần+Phú,+Hà+Đông,+Hà+Nội&output=embed&hl=vi&z=16"
-          allowfullscreen
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
+      <div class="map-frame">
+        <span class="map-gem map-gem-tl">◆</span>
+        <span class="map-gem map-gem-tr">◆</span>
+        <span class="map-gem map-gem-bl">◆</span>
+        <span class="map-gem map-gem-br">◆</span>
+        <div class="map-wrap">
+          <iframe
+            src="https://maps.google.com/maps?q=Trường+Đại+học+Kiến+trúc+Hà+Nội,+129+Trần+Phú,+Hà+Đông,+Hà+Nội&output=embed&hl=vi&z=16"
+            allowfullscreen
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
       </div>
 
       <div class="info-bar">
@@ -634,8 +719,26 @@
           </div>
         </div>
       </div>
-      <!-- CHÈN NGAY DƯỚI </div> của info-bar -->
-<div class="gift-note">
+      <!-- WEATHER -->
+      <div class="weather-wrap">
+        <div class="weather-top">
+          <div class="weather-icon" id="w-icon">⏳</div>
+          <div class="weather-info">
+            <div class="weather-temp" id="w-temp">Đang tải...</div>
+            <div class="weather-desc" id="w-desc"></div>
+          </div>
+          <div class="weather-stats">
+            <div class="weather-stat" id="w-rain"></div>
+            <div class="weather-stat" id="w-uv"></div>
+          </div>
+        </div>
+        <div class="weather-divider"></div>
+        <div class="weather-tips-title">Lưu ý khi tham dự</div>
+        <div class="weather-tips" id="w-tips"></div>
+        <div class="weather-note" id="w-note"></div>
+      </div>
+
+      <div class="gift-note">
   ✨ Một món quà nhỏ đã được chuẩn bị dành riêng cho người tham dự.
   <button class="gift-box-btn" id="lt-btn" title="Bấm để rút quà">🎁</button>
   <div class="lt-result" id="lt-result"></div>
@@ -752,6 +855,62 @@
       t++;
       requestAnimationFrame(loop);
     })();
+  })();
+
+  // WEATHER
+  (function () {
+    var WMO = {
+      0:'☀️ Trời quang',1:'🌤️ Ít mây',2:'⛅ Có mây',3:'☁️ Nhiều mây',
+      45:'🌫️ Sương mù',48:'🌫️ Sương mù',
+      51:'🌦️ Mưa phùn nhẹ',53:'🌦️ Mưa phùn',55:'🌧️ Mưa phùn dày',
+      61:'🌧️ Mưa nhẹ',63:'🌧️ Mưa vừa',65:'🌧️ Mưa to',
+      80:'🌦️ Mưa rào nhẹ',81:'🌦️ Mưa rào',82:'⛈️ Mưa rào to',
+      95:'⛈️ Giông bão',96:'⛈️ Giông có mưa đá',99:'⛈️ Giông mưa đá lớn'
+    };
+
+    function getTips(code, tmax) {
+      var tips = ['👔 Mặc trang phục nhẹ, thoáng mát'];
+      if (tmax >= 32) { tips.push('🧴 Thoa kem chống nắng SPF 50+'); tips.push('💧 Uống đủ nước, tránh nắng gắt'); }
+      if ([61,63,65,80,81,82,95,96,99,51,53,55].indexOf(code) > -1) tips.push('☂️ Nhớ mang theo ô');
+      else tips.push('🕶️ Mang kính râm chống UV');
+      if (tmax >= 34) tips.push('🚗 Ưu tiên đi xe có điều hoà');
+      return tips;
+    }
+
+    function renderFallback() {
+      document.getElementById('w-icon').textContent = '☀️🌦️';
+      document.getElementById('w-temp').textContent = '28° – 34°C';
+      document.getElementById('w-desc').textContent = 'Nắng nóng, có thể có mưa rào chiều';
+      document.getElementById('w-rain').textContent = '💧 Mưa: ~60%';
+      document.getElementById('w-uv').textContent = '🔆 UV: Cao';
+      var tips = getTips(81, 34);
+      document.getElementById('w-tips').innerHTML = tips.map(function(t){ return '<div class="weather-tip">'+t+'</div>'; }).join('');
+      document.getElementById('w-note').textContent = '* Khí hậu TB tháng 5 · Tự cập nhật khi đến gần ngày';
+    }
+
+    fetch('https://api.open-meteo.com/v1/forecast?latitude=20.9257&longitude=105.8412&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weathercode&timezone=Asia%2FBangkok&start_date=2026-05-17&end_date=2026-05-17')
+      .then(function(r){ if (!r.ok) throw new Error('out-of-range'); return r.json(); })
+      .then(function(data) {
+        if (!data.daily || !data.daily.temperature_2m_max || data.daily.temperature_2m_max[0] == null) {
+          renderFallback(); return;
+        }
+        var tmax  = Math.round(data.daily.temperature_2m_max[0]);
+        var tmin  = Math.round(data.daily.temperature_2m_min[0]);
+        var rain  = data.daily.precipitation_probability_max[0];
+        var code  = data.daily.weathercode[0];
+        var desc  = WMO[code] || '🌡️ Nhiều mây';
+
+        document.getElementById('w-icon').textContent = desc.split(' ')[0];
+        document.getElementById('w-temp').textContent = tmin + '° – ' + tmax + '°C';
+        document.getElementById('w-desc').textContent = desc.replace(/^\S+\s/, '');
+        document.getElementById('w-rain').textContent = '💧 Mưa: ' + rain + '%';
+        document.getElementById('w-uv').textContent = tmax >= 32 ? '🔆 UV: Cao' : '🔆 UV: Trung bình';
+
+        var tips = getTips(code, tmax);
+        document.getElementById('w-tips').innerHTML = tips.map(function(t){ return '<div class="weather-tip">'+t+'</div>'; }).join('');
+        document.getElementById('w-note').textContent = '✓ Dự báo thực từ Open-Meteo · Cập nhật tự động';
+      })
+      .catch(renderFallback);
   })();
 
   // SCROLL HINT
