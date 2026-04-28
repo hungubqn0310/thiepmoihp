@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Thư Mời Tốt Nghiệp – Hưng Phạm</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -181,8 +182,8 @@
     }
 
     .photo-ring {
-      width: 168px;
-      height: 168px;
+      width: 240px;
+      height: 240px;
       border-radius: 50%;
       padding: 4px;
       background: conic-gradient(
@@ -371,6 +372,45 @@
 @keyframes giftGlow{
   0%,100%{ opacity:.75; text-shadow:none; transform:translateY(0); }
   50%{ opacity:1; text-shadow:0 0 8px rgba(201,169,110,.28),0 0 14px rgba(201,169,110,.12); transform:translateY(-1px); }
+}
+
+/* SCROLL HINT */
+.scroll-hint{
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+  transition: opacity .5s;
+}
+.scroll-hint.hidden{ opacity: 0; }
+.scroll-hint-text{
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: rgba(201,169,110,.7);
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+}
+.scroll-hint-arrow{
+  width: 20px; height: 20px;
+  border-right: 2px solid rgba(201,169,110,.7);
+  border-bottom: 2px solid rgba(201,169,110,.7);
+  transform: rotate(45deg);
+  animation: arrowBounce .9s ease-in-out infinite;
+}
+.scroll-hint-arrow:nth-child(3){
+  margin-top: -14px;
+  animation-delay: .2s;
+  opacity: .5;
+}
+@keyframes arrowBounce{
+  0%,100%{ transform: rotate(45deg) translateY(0); }
+  50%{ transform: rotate(45deg) translateY(5px); }
 }
 
 /* LOTTERY */
@@ -593,6 +633,12 @@
     box-shadow: 0 4px 16px rgba(0,0,0,.5);
   " title="Nhạc">🎵</button>
 
+<div class="scroll-hint" id="scroll-hint">
+  <span class="scroll-hint-text">Kéo xuống</span>
+  <div class="scroll-hint-arrow"></div>
+  <div class="scroll-hint-arrow"></div>
+</div>
+
 <canvas id="confetti" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:999;"></canvas>
   <script>
   (function () {
@@ -670,6 +716,14 @@
       t++;
       requestAnimationFrame(loop);
     })();
+  })();
+
+  // SCROLL HINT
+  (function () {
+    var hint = document.getElementById('scroll-hint');
+    window.addEventListener('scroll', function () {
+      if (window.scrollY > 40) hint.classList.add('hidden');
+    }, { passive: true });
   })();
 
   // LOTTERY
