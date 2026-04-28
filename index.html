@@ -674,34 +674,56 @@
 
   // LOTTERY
   (function () {
-    var btn        = document.getElementById('lt-btn');
-    var result     = document.getElementById('lt-result');
-    var popup      = document.getElementById('lt-popup');
-    var popNum     = document.getElementById('lt-popup-num');
-    var popNum2    = document.getElementById('lt-popup-num2');
-    var popClose   = document.getElementById('lt-popup-close');
-    var pool       = [];
-    for (var i = 1; i <= 24; i++) pool.push(i);
+    var btn      = document.getElementById('lt-btn');
+    var result   = document.getElementById('lt-result');
+    var popup    = document.getElementById('lt-popup');
+    var popNum   = document.getElementById('lt-popup-num');
+    var popNum2  = document.getElementById('lt-popup-num2');
+    var popClose = document.getElementById('lt-popup-close');
+
+    // Nếu thiết bị này đã rút rồi → khóa luôn
+    var myNum = localStorage.getItem('lt_my_number');
+    if (myNum) {
+      btn.disabled = true;
+      result.textContent = '✦ Số của bạn: ' + myNum + ' ✦';
+    }
+
+    // Lấy pool đã rút từ server/localStorage (chỉ tránh trùng trên cùng thiết bị quản lý)
+    function getPool() {
+      var used = JSON.parse(localStorage.getItem('lt_used') || '[]');
+      var pool = [];
+      for (var i = 1; i <= 24; i++) {
+        if (used.indexOf(i) === -1) pool.push(i);
+      }
+      return pool;
+    }
 
     btn.addEventListener('click', function () {
-      if (pool.length === 0) return;
-      var idx    = Math.floor(Math.random() * pool.length);
-      var winner = pool.splice(idx, 1)[0];
+      if (btn.disabled) return;
+      var pool = getPool();
+      if (pool.length === 0) {
+        result.textContent = '🎉 Đã rút hết 24 phần quà';
+        btn.disabled = true;
+        return;
+      }
+
+      var winner = pool[Math.floor(Math.random() * pool.length)];
+
+      // Lưu số đã rút và khóa thiết bị này
+      var used = JSON.parse(localStorage.getItem('lt_used') || '[]');
+      used.push(winner);
+      localStorage.setItem('lt_used', JSON.stringify(used));
+      localStorage.setItem('lt_my_number', winner);
 
       popNum.textContent  = winner;
       popNum2.textContent = winner;
       popup.classList.add('open');
 
-      result.textContent = '✦ Số ' + winner + ' ✦';
-      if (pool.length === 0) {
-        btn.disabled = true;
-        result.textContent = '🎉 Đã rút hết 24 phần quà';
-      }
+      btn.disabled = true;
+      result.textContent = '✦ Số của bạn: ' + winner + ' ✦';
     });
 
-    popClose.addEventListener('click', function () {
-      popup.classList.remove('open');
-    });
+    popClose.addEventListener('click', function () { popup.classList.remove('open'); });
     popup.addEventListener('click', function (e) {
       if (e.target === popup) popup.classList.remove('open');
     });
