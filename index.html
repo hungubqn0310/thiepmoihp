@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thư Mời Tốt Nghiệp – Hưng Phạm</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(ellipse at 50% 20%, #1a3055 0%, #050810 80%);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    @media (min-width: 480px) {
+      body { align-items: center; padding: 32px 16px; }
+      .card { border-radius: 3px; }
+    }
+
+    /* ── CARD ── */
+    .card {
+      width: 100%;
+      max-width: 430px;
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0,0,0,.9), 0 10px 40px rgba(0,0,0,.6);
+    }
+
+    /* ── TOP CREAM ── */
+    .top {
+      background: #f4efe6;
+      padding: 22px 22px 24px;
+    }
+
+    /* Double-line gold frame */
+    .frame-outer {
+      border: 1px solid #c9a96e;
+      padding: 5px;
+      position: relative;
+    }
+
+    /* Corner diamond gems */
+    .gem {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: #f4efe6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      color: #c9a96e;
+      z-index: 2;
+    }
+    .gem-tl { top: -6px; left: -6px; }
+    .gem-tr { top: -6px; right: -6px; }
+    .gem-bl { bottom: -6px; left: -6px; }
+    .gem-br { bottom: -6px; right: -6px; }
+
+    .frame-inner {
+      border: 1px solid rgba(201,169,110,.4);
+      padding: 22px 18px 26px;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+    .h-text {
+      font-size: 20px;
+      letter-spacing: 5px;
+      font-weight: 600;
+      color: #7a5a1a;
+      text-transform: uppercase;
+    }
+    .h-dot {
+      width: 5px;
+      height: 5px;
+      background: #c9a96e;
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+
+    /* ── GOLD RULE ── */
+    .rule {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 14px 0;
+    }
+    .rule-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #c9a96e 25%, #c9a96e 75%, transparent);
+    }
+    .rule-gem { color: #c9a96e; font-size: 9px; }
+
+    /* ── OCCASION ── */
+    .occasion {
+      text-align: center;
+      font-size: 10px;
+      letter-spacing: 8px;
+      font-weight: 600;
+      color: #7a5a1a;
+      text-transform: uppercase;
+    }
+
+    /* ── NAME BLOCK ── */
+    .name-block { text-align: center; }
+
+    .badge {
+      display: inline-block;
+      background: #162848;
+      color: #c9a96e;
+      font-size: 6.5px;
+      letter-spacing: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+      padding: 4px 16px 5px;
+      margin-bottom: 30px;
+    }
+
+    .name {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(52px, 13.5vw, 68px);
+      color: #162848;
+      display: block;
+      line-height: 1.05;
+      white-space: nowrap;
+    }
+
+    /* ── TAGLINE ── */
+    .tagline {
+      text-align: center;
+      font-size: 14.5px;
+      letter-spacing: 2.5px;
+      color: #7a5a1a;
+      text-transform: uppercase;
+      font-weight: 500;
+      line-height: 2.3;
+    }
+
+    .honor {
+  text-align: center;
+  font-style: italic;
+  font-size: 10px;
+  color: #8a6420;
+  margin-top: 16px;
+  letter-spacing: 0.35px;
+  line-height: 1.8;
+  animation: honorGlow 4s ease-in-out infinite;
+  transition: all .3s ease;
+}
+
+    /* ── SCALLOP ── */
+    .scallop { line-height: 0; background: #f4efe6; }
+    .scallop svg { display: block; width: 100%; }
+
+    /* ── BOTTOM DARK ── */
+    .bottom {
+      background: #162848;
+      padding: 0 24px 28px;
+    }
+
+    /* Photo */
+    .photo-wrap {
+      display: flex;
+      justify-content: center;
+      padding-top: 22px;
+      margin-bottom: 18px;
+    }
+
+    .photo-ring {
+      width: 168px;
+      height: 168px;
+      border-radius: 50%;
+      padding: 4px;
+      background: conic-gradient(
+        #c9a96e 0deg, #f5e090 60deg, #c9a96e 120deg,
+        #e8c878 180deg, #c9a96e 240deg, #f5e090 300deg, #c9a96e 360deg
+      );
+      box-shadow:
+        0 0 0 8px rgba(201,169,110,.08),
+        0 0 0 16px rgba(201,169,110,.04),
+        0 16px 48px rgba(0,0,0,.55);
+    }
+
+    .photo-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #1e3a6a;
+    }
+
+    .photo-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    /* Monogram seal */
+    .seal-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+
+    .seal {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,169,110,.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .seal::after {
+      content: '';
+      position: absolute;
+      inset: 5px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,169,110,.2);
+    }
+    .seal-mono {
+      font-family: 'Great Vibes', cursive;
+      font-size: 22px;
+      color: rgba(201,169,110,.75);
+      z-index: 1;
+    }
+
+    /* Info */
+    .info-bar {
+      border-top: 1px solid rgba(201,169,110,.2);
+      padding-top: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .info-label {
+      font-size: 8.5px;
+      letter-spacing: 3.5px;
+      text-transform: uppercase;
+      color: #c9a96e;
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .info-label i {
+      font-size: 11px;
+      letter-spacing: 0;
+    }
+    .info-right .info-label {
+      justify-content: flex-end;
+    }
+
+    .info-value {
+      color: #d4c098;
+      font-size: 9.5px;
+      line-height: 2;
+      font-weight: 300;
+    }
+
+    .info-right { text-align: right; }
+
+    /* Map */
+    .map-wrap {
+      margin-bottom: 18px;
+      border: 1px solid rgba(201,169,110,.3);
+      overflow: hidden;
+      position: relative;
+    }
+    .map-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      box-shadow: inset 0 0 0 1px rgba(201,169,110,.15);
+    }
+    .map-wrap iframe {
+      display: block;
+      width: 100%;
+      height: 160px;
+      border: none;
+      filter: grayscale(30%) contrast(1.05);
+    }
+    .badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #162848;
+  color: #c9a96e;
+  font-size: 9px;
+  letter-spacing: 3px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 7px 22px 8px;
+  margin-bottom: 30px;
+  margin-top: 12px;
+}
+
+.sparkle{
+  font-size: 11px;
+  color: #f7de88;
+  text-shadow:
+    0 0 4px rgba(255,230,150,.8),
+    0 0 10px rgba(255,220,120,.6);
+  animation: twinkle 1.6s infinite ease-in-out;
+}
+
+.sparkle.right{
+  animation-delay: .8s;
+}
+
+@keyframes twinkle{
+  0%,100%{
+    transform: scale(1) rotate(0deg);
+    opacity: .7;
+  }
+  50%{
+    transform: scale(1.35) rotate(18deg);
+    opacity: 1;
+  }
+}
+@keyframes honorGlow{
+  0%,100%{
+    opacity: .78;
+    transform: translateY(0px);
+    text-shadow: 0 0 0 rgba(201,169,110,0);
+  }
+
+  50%{
+    opacity: 1;
+    transform: translateY(-2px);
+    text-shadow:
+      0 0 6px rgba(201,169,110,.28),
+      0 0 12px rgba(201,169,110,.12);
+  }
+}
+/* THÊM VÀO CUỐI <style> */
+  .gift-note{
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(201,169,110,.18);
+  text-align: center;
+  font-size: 10px;
+  color: #d6b36b;
+  font-style: italic;
+  line-height: 1.8;
+  letter-spacing: .25px;
+  animation: giftGlow 3s ease-in-out infinite;
+}
+
+@keyframes giftGlow{
+  0%,100%{
+    opacity:.75;
+    text-shadow:none;
+    transform: translateY(0);
+  }
+  50%{
+    opacity:1;
+    text-shadow:
+      0 0 8px rgba(201,169,110,.28),
+      0 0 14px rgba(201,169,110,.12);
+    transform: translateY(-1px);
+  }
+}
+  </style>
+</head>
+<body>
+  <div class="card">
+
+    <!-- TOP CREAM -->
+    <div class="top">
+      <div class="frame-outer">
+        <span class="gem gem-tl">◆</span>
+        <span class="gem gem-tr">◆</span>
+        <span class="gem gem-bl">◆</span>
+        <span class="gem gem-br">◆</span>
+
+        <div class="frame-inner">
+
+          <div class="header">
+            <span class="h-text">Thư Mời</span>
+            <div class="h-dot"></div>
+            <span class="h-text">Tham Dự</span>
+          </div>
+
+          <div class="rule">
+            <div class="rule-line"></div>
+            <span class="rule-gem">◆</span>
+            <div class="rule-line"></div>
+          </div>
+
+          <div class="occasion">Lễ Tốt Nghiệp</div>
+
+          <div class="name-block">
+            <div class="badge">
+              <span class="sparkle left">✦</span>
+              Kỹ Sư AiTi
+              <span class="sparkle right">✦</span>
+            </div>
+            <span class="name">Hưng Phạm</span>
+          </div>
+
+          <div class="rule">
+            <div class="rule-line"></div>
+            <span class="rule-gem">◆</span>
+            <div class="rule-line"></div>
+          </div>
+
+          <div class="tagline">
+            Chính thức gia nhập<br>
+            Thị trường lao động
+          </div>
+
+          <div class="honor">
+            "Sự hiện diện của mọi người là niềm vinh dự và động lực lớn lao đối với tôi trong chặng đường mới. Kính mời mọi người đến chia sẻ niềm vui trong lễ tốt nghiệp."
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- SCALLOP -->
+    <div class="scallop">
+      <svg viewBox="0 0 430 28" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="
+          M0,0 Q10.75,28 21.5,0 Q32.25,28 43,0 Q53.75,28 64.5,0 Q75.25,28 86,0
+          Q96.75,28 107.5,0 Q118.25,28 129,0 Q139.75,28 150.5,0 Q161.25,28 172,0
+          Q182.75,28 193.5,0 Q204.25,28 215,0 Q225.75,28 236.5,0 Q247.25,28 258,0
+          Q268.75,28 279.5,0 Q290.25,28 301,0 Q311.75,28 322.5,0 Q333.25,28 344,0
+          Q354.75,28 365.5,0 Q376.25,28 387,0 Q397.75,28 408.5,0 Q419.25,28 430,0
+          L430,28 L0,28 Z
+        " fill="#162848"/>
+      </svg>
+    </div>
+
+    <!-- BOTTOM DARK -->
+    <div class="bottom">
+
+      <div class="photo-wrap">
+        <div class="photo-ring">
+          <div class="photo-inner">
+            <img src="photo.jpg" alt="Hưng Phạm"
+              onerror="this.onerror=null;this.style.display='none';" />
+          </div>
+        </div>
+      </div>
+
+      <div class="seal-wrap">
+        <div class="seal">
+          <span class="seal-mono">HP</span>
+        </div>
+      </div>
+
+      <div class="map-wrap">
+        <iframe
+          src="https://maps.google.com/maps?q=Trường+Đại+học+Kiến+trúc+Hà+Nội,+129+Trần+Phú,+Hà+Đông,+Hà+Nội&output=embed&hl=vi&z=16"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+
+      <div class="info-bar">
+        <div class="info-left">
+          <div class="info-label"><i class="fa-regular fa-clock"></i> Thời Gian</div>
+          <div class="info-value">09 : 30<br>Chủ Nhật<br>17 / 05 / 2026</div>
+        </div>
+        <div class="info-right">
+          <div class="info-label">
+            <i class="fa-solid fa-location-dot"></i> Địa Điểm
+          </div>
+          <div class="info-value">
+            HAU, 129 Đ. Trần Phú<br>
+            Phường Hà Đông<br>
+            Hà Nội
+          </div>
+        </div>
+      </div>
+      <!-- CHÈN NGAY DƯỚI </div> của info-bar -->
+<div class="gift-note">
+  ✨ Một món quà nhỏ đã được chuẩn bị dành riêng cho người tham dự.
+</div>
+    </div>
+  </div>
+
+  <canvas id="confetti" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:999;"></canvas>
+  <script>
+  (function () {
+    var c = document.getElementById('confetti');
+    var ctx = c.getContext('2d');
+
+    function resize() { c.width = innerWidth; c.height = innerHeight; }
+    resize();
+    window.addEventListener('resize', resize);
+
+    var GOLDS = ['#c9a96e','#f0d890','#e8c050','#d4a850','#f5e8a0'];
+    var OTHERS = ['#f4efe6','#162848'];
+
+    function Particle(scatter) {
+      this.reset(scatter);
+    }
+
+    Particle.prototype.reset = function (scatter) {
+      this.x = Math.random() * c.width;
+      this.y = scatter ? Math.random() * c.height : Math.random() * -300 - 10;
+      this.vy = 1.2 + Math.random() * 2.2;
+      this.vx = (Math.random() - 0.5) * 0.6;
+      this.rot = Math.random() * Math.PI * 2;
+      this.drot = (Math.random() - 0.5) * 0.07;
+      this.w = 7 + Math.random() * 9;
+      this.h = 3 + Math.random() * 5;
+      this.alpha = 0.5 + Math.random() * 0.5;
+      this.swing = Math.random() * Math.PI * 2;
+      this.swingSpd = 0.018 + Math.random() * 0.022;
+      var r = Math.random();
+      this.type = r < 0.15 ? 'cap' : (r < 0.38 ? 'dot' : 'rect');
+      this.color = Math.random() < 0.72
+        ? GOLDS[Math.floor(Math.random() * GOLDS.length)]
+        : OTHERS[Math.floor(Math.random() * OTHERS.length)];
+    };
+
+    Particle.prototype.step = function (t) {
+      this.y += this.vy;
+      this.x += this.vx + Math.sin(this.swing + t * this.swingSpd) * 0.55;
+      this.rot += this.drot;
+      if (this.y > c.height + 30) this.reset(false);
+    };
+
+    Particle.prototype.draw = function () {
+      ctx.save();
+      ctx.globalAlpha = this.alpha;
+      ctx.translate(this.x, this.y);
+      if (this.type === 'cap') {
+        ctx.font = (this.w * 2.4) + 'px serif';
+        ctx.fillText('🎓', -this.w * 0.9, this.w * 0.6);
+      } else {
+        ctx.rotate(this.rot);
+        ctx.fillStyle = this.color;
+        if (this.type === 'dot') {
+          ctx.beginPath();
+          ctx.arc(0, 0, this.w * 0.42, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          ctx.fillRect(-this.w / 2, -this.h / 2, this.w, this.h);
+        }
+      }
+      ctx.restore();
+    };
+
+    var particles = [];
+    for (var i = 0; i < 60; i++) particles.push(new Particle(true));
+
+    var t = 0;
+    (function loop() {
+      ctx.clearRect(0, 0, c.width, c.height);
+      for (var i = 0; i < particles.length; i++) {
+        particles[i].step(t);
+        particles[i].draw();
+      }
+      t++;
+      requestAnimationFrame(loop);
+    })();
+  })();
+  </script>
+</body>
+</html>
