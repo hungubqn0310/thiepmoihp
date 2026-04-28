@@ -381,98 +381,18 @@
   animation: boxBounce 1s ease-in-out infinite;
   filter: drop-shadow(0 0 6px rgba(201,169,110,.5));
 }
+.gift-box-btn:disabled{ animation:none; opacity:.4; cursor:not-allowed; }
 @keyframes boxBounce{
   0%,100%{ transform:translateY(0) scale(1); }
   40%{ transform:translateY(-10px) scale(1.08); }
   60%{ transform:translateY(-6px) scale(1.04); }
 }
-
-.lt-overlay{
-  display:none; position:fixed; inset:0; z-index:1100;
-  background:rgba(5,8,16,.85); backdrop-filter:blur(4px);
-  align-items:center; justify-content:center; padding:20px;
+.lt-result{
+  margin-top:10px;
+  font-size:11px; letter-spacing:2px; color:#c9a96e;
+  min-height:18px; text-align:center;
+  font-weight:600; text-transform:uppercase;
 }
-.lt-overlay.open{ display:flex; }
-
-.lt-modal{
-  width:100%; max-width:400px;
-  background:#0e1e38;
-  border:1px solid rgba(201,169,110,.35);
-  border-radius:4px;
-  padding:24px 20px 28px;
-  box-shadow:0 24px 80px rgba(0,0,0,.8);
-  text-align:center;
-}
-
-.lt-close{
-  float:right; background:none; border:none;
-  color:#c9a96e; font-size:20px; cursor:pointer; margin-top:-4px;
-}
-
-.lt-title{
-  font-family:'Great Vibes',cursive;
-  font-size:32px; color:#c9a96e; margin:8px 0 4px;
-}
-.lt-sub{ font-size:9px; letter-spacing:3px; color:#8a7040; text-transform:uppercase; margin-bottom:18px; }
-
-.lt-screen{
-  width:100px; height:100px; border-radius:50%;
-  border:2px solid #c9a96e;
-  display:flex; align-items:center; justify-content:center;
-  margin:0 auto 18px;
-  background:#162848;
-  box-shadow:0 0 0 6px rgba(201,169,110,.08);
-  font-size:38px; font-weight:700; color:#f5e090;
-  font-family:'Montserrat',sans-serif;
-  transition:all .15s;
-}
-.lt-screen.spin{ animation:screenSpin .08s linear infinite; }
-@keyframes screenSpin{
-  0%{ color:#c9a96e; } 50%{ color:#f5e090; } 100%{ color:#e8c050; }
-}
-.lt-screen.winner{
-  border-color:#f5e090;
-  box-shadow:0 0 0 6px rgba(245,224,144,.15), 0 0 30px rgba(245,224,144,.25);
-  animation:winnerPulse 1s ease-in-out infinite;
-}
-@keyframes winnerPulse{
-  0%,100%{ transform:scale(1); }
-  50%{ transform:scale(1.06); }
-}
-
-.lt-grid{
-  display:grid; grid-template-columns:repeat(6,1fr); gap:6px; margin-bottom:18px;
-}
-.lt-cell{
-  aspect-ratio:1; border-radius:3px;
-  border:1px solid rgba(201,169,110,.3);
-  display:flex; align-items:center; justify-content:center;
-  font-size:12px; font-weight:600; color:#c9a96e;
-  background:#162848; cursor:default;
-  transition:all .3s;
-}
-.lt-cell.used{
-  background:#0a1220; color:rgba(201,169,110,.25);
-  border-color:rgba(201,169,110,.1); text-decoration:line-through;
-}
-.lt-cell.active{
-  background:#c9a96e; color:#0e1e38;
-  box-shadow:0 0 10px rgba(201,169,110,.5);
-}
-
-.lt-btn{
-  width:100%; padding:12px;
-  background:linear-gradient(135deg,#c9a96e,#e8c050,#c9a96e);
-  border:none; border-radius:3px;
-  font-family:'Montserrat',sans-serif;
-  font-size:11px; font-weight:700; letter-spacing:3px;
-  color:#0e1e38; cursor:pointer;
-  text-transform:uppercase;
-  box-shadow:0 4px 16px rgba(201,169,110,.3);
-  transition:opacity .2s;
-}
-.lt-btn:disabled{ opacity:.4; cursor:not-allowed; }
-.lt-remain{ font-size:9px; color:#8a7040; letter-spacing:2px; margin-top:10px; text-transform:uppercase; }
   </style>
 </head>
 <body>
@@ -590,20 +510,8 @@
       <!-- CHÈN NGAY DƯỚI </div> của info-bar -->
 <div class="gift-note">
   ✨ Một món quà nhỏ đã được chuẩn bị dành riêng cho người tham dự.
-  <button class="gift-box-btn" id="open-lottery" title="Rút quà">🎁</button>
-</div>
-
-<!-- LOTTERY MODAL -->
-<div class="lt-overlay" id="lt-overlay">
-  <div class="lt-modal">
-    <button class="lt-close" id="lt-close">✕</button>
-    <div class="lt-title">Rút Thăm</div>
-    <div class="lt-sub">May Mắn · 24 Phần Quà</div>
-    <div class="lt-screen" id="lt-screen">?</div>
-    <div class="lt-grid" id="lt-grid"></div>
-    <button class="lt-btn" id="lt-btn">✦ Rút Quà ✦</button>
-    <p class="lt-remain" id="lt-remain">Còn 24 phần quà</p>
-  </div>
+  <button class="gift-box-btn" id="lt-btn" title="Bấm để rút quà">🎁</button>
+  <div class="lt-result" id="lt-result"></div>
 </div>
     </div>
   </div>
@@ -702,75 +610,20 @@
 
   // LOTTERY
   (function () {
-    var overlay  = document.getElementById('lt-overlay');
-    var screen   = document.getElementById('lt-screen');
-    var grid     = document.getElementById('lt-grid');
-    var btn      = document.getElementById('lt-btn');
-    var remain   = document.getElementById('lt-remain');
-    var openBtn  = document.getElementById('open-lottery');
-    var closeBtn = document.getElementById('lt-close');
-
-    var pool = Array.from({length:24}, function(_,i){ return i+1; });
-    var cells = [];
-
-    // Build grid
-    for (var i = 1; i <= 24; i++) {
-      var cell = document.createElement('div');
-      cell.className = 'lt-cell';
-      cell.textContent = i;
-      cell.id = 'cell-' + i;
-      grid.appendChild(cell);
-      cells.push(cell);
-    }
-
-    openBtn.addEventListener('click', function() {
-      overlay.classList.add('open');
-    });
-    closeBtn.addEventListener('click', function() {
-      overlay.classList.remove('open');
-    });
-    overlay.addEventListener('click', function(e) {
-      if (e.target === overlay) overlay.classList.remove('open');
-    });
+    var btn    = document.getElementById('lt-btn');
+    var result = document.getElementById('lt-result');
+    var pool   = [];
+    for (var i = 1; i <= 24; i++) pool.push(i);
 
     btn.addEventListener('click', function () {
       if (pool.length === 0) return;
-      btn.disabled = true;
-
-      var winner = pool.splice(Math.floor(Math.random() * pool.length), 1)[0];
-      var duration = 2200;
-      var interval = 80;
-      var elapsed = 0;
-
-      screen.classList.remove('winner');
-      screen.classList.add('spin');
-      cells.forEach(function(c){ c.classList.remove('active'); });
-
-      var tick = setInterval(function () {
-        elapsed += interval;
-        var fake = pool.length > 0
-          ? pool[Math.floor(Math.random() * pool.length)]
-          : winner;
-        screen.textContent = fake;
-
-        if (elapsed >= duration * 0.6) interval = 120 + (elapsed / duration) * 200;
-
-        if (elapsed >= duration) {
-          clearInterval(tick);
-          screen.classList.remove('spin');
-          screen.classList.add('winner');
-          screen.textContent = winner;
-
-          var winCell = document.getElementById('cell-' + winner);
-          winCell.classList.add('active');
-          setTimeout(function(){ winCell.classList.remove('active'); winCell.classList.add('used'); }, 1200);
-
-          remain.textContent = pool.length > 0
-            ? 'Còn ' + pool.length + ' phần quà'
-            : 'Đã rút hết 24 phần quà 🎉';
-          btn.disabled = pool.length === 0;
-        }
-      }, interval);
+      var idx    = Math.floor(Math.random() * pool.length);
+      var winner = pool.splice(idx, 1)[0];
+      result.textContent = '✦ Số ' + winner + ' ✦';
+      if (pool.length === 0) {
+        btn.disabled = true;
+        result.textContent = '🎉 Đã rút hết 24 phần quà';
+      }
     });
   })();
 
