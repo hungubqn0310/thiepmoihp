@@ -148,7 +148,7 @@
       color: #7a5a1a;
       text-transform: uppercase;
       font-weight: 500;
-      line-height: 2.3;
+      line-height: 1.6;
     }
 
     .honor {
@@ -238,7 +238,7 @@
     }
     .seal-mono {
       font-family: 'Great Vibes', cursive;
-      font-size: 22px;
+      font-size: 32px;
       color: rgba(201,169,110,.75);
       z-index: 1;
     }
@@ -752,7 +752,8 @@
     <div class="rule"><div class="rule-line"></div><span class="rule-gem">◆</span><div class="rule-line"></div></div>
     <p class="lt-popup-msg">
       Bạn đã có số may mắn <strong id="lt-popup-num2">1</strong> 🎁<br><br>
-      Vui lòng đến dự lễ tốt nghiệp để được nhận phần quà từ <strong>Hưng Fam</strong> 🎓
+      Vui lòng đến dự lễ tốt nghiệp để được nhận phần quà từ <strong>Hưng Fam</strong> 🎓<br><br>
+      📢 Khi đến nơi, hãy nói con số <strong id="lt-popup-num3">1</strong> này với <strong>Hưng Phạm</strong> để nhận quà nhé!
     </p>
     <button class="lt-popup-close" id="lt-popup-close">Đóng</button>
   </div>
@@ -966,6 +967,8 @@
 
       popNum.textContent  = winner;
       popNum2.textContent = winner;
+      var popNum3 = document.getElementById('lt-popup-num3');
+      if (popNum3) popNum3.textContent = winner;
       popup.classList.add('open');
 
       btn.disabled = true;
