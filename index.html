@@ -549,6 +549,85 @@
   font-weight:600; text-transform:uppercase;
 }
 
+/* TIMELINE */
+.timeline-wrap{
+  margin-top: 20px;
+  border: 1px solid rgba(201,169,110,.25);
+  padding: 18px 16px 14px;
+  position: relative;
+}
+.timeline-wrap::before{
+  content: 'CHƯƠNG TRÌNH · 17/05/2026';
+  position: absolute;
+  top: -7px; left: 50%;
+  transform: translateX(-50%);
+  background: #162848;
+  padding: 0 10px;
+  font-size: 7.5px;
+  letter-spacing: 3px;
+  color: #c9a96e;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.tl-list{
+  position: relative;
+  padding-left: 10px;
+}
+.tl-list::before{
+  content:'';
+  position: absolute;
+  left: 0; top: 8px; bottom: 8px;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(201,169,110,.45) 10%, rgba(201,169,110,.45) 90%, transparent);
+}
+.tl-item{
+  position: relative;
+  padding: 0 0 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.tl-item:last-child{ padding-bottom: 0; }
+.tl-item::before{
+  content:'◆';
+  position: absolute;
+  left: -4px; top: 2px;
+  font-size: 7px;
+  color: #c9a96e;
+  line-height: 1;
+}
+.tl-time{
+  font-size: 8.5px;
+  letter-spacing: 2px;
+  color: #f5e090;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.tl-event{
+  font-size: 10px;
+  color: #d4c098;
+  letter-spacing: .3px;
+  line-height: 1.6;
+  font-weight: 300;
+}
+.tl-photo{
+  background: rgba(201,169,110,.08);
+  border: 1px solid rgba(201,169,110,.35);
+  border-radius: 2px;
+  padding: 6px 10px;
+  font-size: 10px;
+  color: #f5e090;
+  letter-spacing: .4px;
+  line-height: 1.6;
+  font-weight: 500;
+  margin-top: 2px;
+  animation: photoSlotGlow 2.5s ease-in-out infinite;
+}
+@keyframes photoSlotGlow{
+  0%,100%{ box-shadow: none; }
+  50%{ box-shadow: 0 0 10px rgba(201,169,110,.2), inset 0 0 8px rgba(201,169,110,.06); }
+}
+
 /* POPUP */
 .lt-popup{
   display:none; position:fixed; inset:0; z-index:1200;
@@ -680,7 +759,6 @@
           </div>
         </div>
       </div>
-      <p class="photo-hint" id="photo-hint">🎵 Bấm vào ảnh để nghe nhạc</p>
 
       <div class="seal-wrap">
         <div class="seal">
@@ -706,7 +784,7 @@
       <div class="info-bar">
         <div class="info-left">
           <div class="info-label"><i class="fa-regular fa-clock"></i> Thời Gian</div>
-          <div class="info-value">Giờ: Coming Soon...<br>Chủ Nhật<br>17 / 05 / 2026</div>
+          <div class="info-value">07:30 – 11:30<br>Chủ Nhật<br>17 / 05 / 2026</div>
         </div>
         <div class="info-right">
           <div class="info-label">
@@ -719,6 +797,45 @@
           </div>
         </div>
       </div>
+      <!-- TIMELINE -->
+      <div class="timeline-wrap">
+        <div class="tl-list">
+
+          <div class="tl-item">
+            <div class="tl-time">07:30 – 08:00</div>
+            <div class="tl-event">
+              Tân kỹ sư đăng ký, mặc trang phục tốt nghiệp.<br>
+              Đón tiếp khách mời, ổn định chỗ ngồi.
+            </div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-time">08:00</div>
+            <div class="tl-event">Chào cờ, khai mạc lễ trao bằng.</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-time">08:00 – 11:30</div>
+            <div class="tl-event">
+              Trao phần thưởng thủ khoa, xuất sắc, giỏi.<br>
+              Lãnh đạo Khoa trao bằng tượng trưng trên sân khấu.<br>
+              Sinh viên nhận Bằng tốt nghiệp &amp; hồ sơ.<br>
+              Trả trang phục tốt nghiệp.
+            </div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-time">📸 10:00 – 12:00 · Chụp ảnh cùng Hưng</div>
+            <div class="tl-photo">
+              ✨ Đây là khung giờ vàng để gặp mình!<br>
+              Mình sẽ đợi mọi người tại khu vực sân trường HAU sau khi lễ kết thúc.<br>
+              Mang theo nụ cười thật tươi nhé 😄
+            </div>
+          </div>
+
+        </div>
+      </div>
+
       <!-- WEATHER -->
       <div class="weather-wrap">
         <div class="weather-top">
@@ -909,7 +1026,7 @@
 
         var tips = getTips(code, tmax);
         document.getElementById('w-tips').innerHTML = tips.map(function(t){ return '<div class="weather-tip">'+t+'</div>'; }).join('');
-        document.getElementById('w-note').textContent = '✓ Dự báo thực từ Open-Meteo · Cập nhật tự động';
+        document.getElementById('w-note').textContent = '';
       })
       .catch(renderFallback);
   })();
